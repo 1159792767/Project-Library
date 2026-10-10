@@ -1,0 +1,10 @@
+{
+  "project": "Demo.App.csproj",
+  "publicRepo": "1159792767/Public-Library",
+  "projectRepo": "1159792767/Project-Library",
+  "appId": "app-github-demo",
+  "runtime": "win-x64",
+  "entryExe": "Demo.App.exe",
+  "releaseMajor": 2,
+  "selfTestArgument": "--self-test"
+}
