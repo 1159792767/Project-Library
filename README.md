@@ -1,6 +1,6 @@
 # Windows 程序内更新演示
 ## 下载体验
-请到 Releases 下载 **Demo.App-1.0.0-win-x64.zip**，不是 Source code。解压整个文件夹，双击 Demo.App.exe。无需安装 .NET。
+请到 Releases 下载 **Demo.App-1.1.0-win-x64.zip**，不是 Source code。解压整个文件夹，双击 Demo.App.exe。无需安装 .NET。
 1. 点击计算总金额：旧版显示 10，预期 30。
 2. 点击检查更新，再点下载更新并重启。
 3. 下载经 SHA256 校验、解压并自检后，启动 1.0.1，计算结果变成 30。
@@ -13,4 +13,4 @@
 Actions 的 Publish desktop demo 手动构建并发布两个自包含 Windows x64 版本。两个 tag 用同一源提交，通过工作流分别选择公共库包和程序版本。旧版的计算测试应失败，新版应通过。Updater.Tests 覆盖降级、校验失败和 Zip 路径越界。
 
 ## 演示边界
-需要能访问 GitHub API 和 Release 下载服务，不需要公司 VPN。匿名 API 可能限流。当前手动检查、用户确认更新，独立目录安装并重启；不是热替换 DLL。SHA256 来自 HTTPS GitHub API，不是独立发行签名。正式发布还需签名、稳定启动入口、超时重试和数据迁移策略。公共库升级 PR 与桌面发布是两条流程，本次不自动合并依赖 PR。
+需要能访问 GitHub Release 和 Release 下载服务，不需要公司 VPN。匿名 API 可能限流。当前手动检查、用户确认更新，独立目录安装并重启；不是热替换 DLL。SHA256 来自 HTTPS GitHub Release，不是独立发行签名。正式发布还需签名、稳定启动入口、超时重试和数据迁移策略。公共库升级 PR 与桌面发布是两条流程，本次不自动合并依赖 PR。

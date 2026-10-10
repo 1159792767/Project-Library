@@ -10,7 +10,7 @@ internal static class Program {
  }
 }
 internal sealed partial class MainWindow : Form {
- const string Repo="https://api.github.com/repos/1159792767/Project-Library/releases/latest";
+ const string Repo="https://github.com/1159792767/Project-Library/releases/latest/download/update.json";
  static readonly HttpClient Http=new() { Timeout=TimeSpan.FromMinutes(10) };
  readonly Label status=new() { AutoSize=false, Height=80, Width=620 };
  readonly NumericUpDown price=new() { Value=10, Maximum=1000000, DecimalPlaces=2, Width=180 };
@@ -37,14 +37,10 @@ internal sealed partial class MainWindow : Form {
   check.Enabled=false;install.Enabled=false;status.Text="正在连接 GitHub 检查版本…";
   try {
    using var json=JsonDocument.Parse(await Http.GetStringAsync(Repo));var r=json.RootElement;
-   var candidate=r.GetProperty("tag_name").GetString()!.TrimStart('v');
+   var candidate=r.GetProperty("version").GetString()!;
    if(!UpdateCore.IsNewer(candidate,current)) {status.Text="已是最新版本。";return;}
-   string? download=null,digest=null;
-   foreach(var a in r.GetProperty("assets").EnumerateArray()) if(a.GetProperty("name").GetString()=="Demo.App-"+candidate+"-win-x64.zip") {
-    download=a.GetProperty("browser_download_url").GetString();
-    if(a.TryGetProperty("digest",out var dg)) digest=dg.GetString();
-   }
-   if(download is null || digest is null || !digest.StartsWith("sha256:")) throw new InvalidDataException("发布包或 SHA256 校验信息缺失");
+   var download=r.GetProperty("url").GetString()!;
+   var digest="sha256:"+r.GetProperty("sha256").GetString()!;
    if(!download.StartsWith("https://github.com/1159792767/Project-Library/releases/download/",StringComparison.Ordinal)) throw new InvalidDataException("不受信任的下载地址");
    version=candidate;url=download;hash=digest[7..];install.Enabled=true;
    status.Text=$"发现新版 {candidate}：修复公共库数量计算问题。点击下载更新并重启。";
