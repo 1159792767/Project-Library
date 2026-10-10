@@ -17,7 +17,7 @@ if existing:
     print(existing[0]["url"]); raise SystemExit(0)
 run("git", "checkout", "-b", branch)
 p.write_text(original.replace('Version="'+current+'"', 'Version="'+latest+'"'))
-# Bot-created PRs do not automatically trigger other Actions workflows.
+# Bot-created PR workflows may be suppressed or require approval.
 # Validate the updated application here, before creating the PR.
 subprocess.run(["dotnet", "run", "--project", "Demo.App.csproj"], check=True)
 run("git", "config", "user.name", "dependency-demo-bot")
@@ -30,3 +30,4 @@ url = run("gh", "pr", "create", "--base", "main", "--head", branch,
           "--body", "Public library update detected: " + current + " -> " + latest + ".\n\nThe update checker restored the real NuGet package and verified 10 x 3 = 30 before creating this PR. Merge to upgrade. This demo uses GitHub Actions, not Renovate.")
 print(url)
 with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f: f.write("Dependency update PR: " + url)
+

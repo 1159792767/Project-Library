@@ -13,5 +13,6 @@ Settings → Actions → General → Workflow permissions：允许 GitHub Action
 Watch → All Activity，并在个人 Settings → Notifications 开启需要的网页/邮件通知。PR 出现不代表邮件一定送达；需用户确认实际收件。
 
 ## 边界
-本例采用 GitHub Actions + 简单检测脚本，不是 Renovate。只支持本例的三段稳定版本号、不自动合并。机器人创建的 PR 不会自动触发其他 Actions，因此检测作业在创建 PR 前直接执行更新后测试；合并后的 push 再次执行测试。
+本例采用 GitHub Actions + 简单检测脚本，不是 Renovate。只支持本例的三段稳定版本号、不自动合并。机器人 PR 的工作流可能不被触发或要求仓库所有者批准。本次独立 PR 测试显示 action_required，因此检测作业在创建 PR 前直接执行更新后测试；合并后的 push 再次执行测试。
 包通过公开 GitHub Raw 托管，仅供实验；企业部署应换为外网可访问且需认证的 NuGet 服务。
+
