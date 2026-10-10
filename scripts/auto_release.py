@@ -72,13 +72,17 @@ def main():
     sources=['--source',feed+'index.json','--source','https://api.nuget.org/v3/index.json']
     if (project.parent/'TeamUpdater.Generated').exists(): sources+=['--source',str(project.parent/'TeamUpdater.Generated')]
     run('dotnet','restore',str(project),*sources)
-    run('dotnet','build',str(project),'-c','Release','-p:Version='+version)
+    version_args=['-p:Version='+version,'-p:AssemblyVersion='+version,'-p:FileVersion='+version]
+    run('dotnet','build',str(project),'-c','Release',*version_args)
     for test in config.get('testProjects',[]):
         test_path=(root/test).resolve()
         if not test_path.is_relative_to(root): raise ValueError('Test project outside repository')
         run('dotnet','test',str(test_path),'-c','Release')
     out=root/'_teamupdater'/'publish'; out.mkdir(parents=True,exist_ok=True)
-    run('dotnet','publish',str(project),'-c','Release','-r',config.get('runtime','win-x64'),'--self-contained','true','-p:Version='+version,'-o',str(out))
+    run('dotnet','publish',str(project),'-c','Release','-r',config.get('runtime','win-x64'),'--self-contained','true',*version_args,'-o',str(out))
+    os.environ['TEAM_UPDATER_ASSEMBLY']=str(out/Path(config['entryExe']).with_suffix('.dll'))
+    actual=subprocess.check_output(['pwsh','-NoProfile','-Command','[Reflection.AssemblyName]::GetAssemblyName($env:TEAM_UPDATER_ASSEMBLY).Version.ToString(3)'],text=True).strip()
+    if actual!=version: raise ValueError('Published assembly version does not match manifest; custom assembly attributes or single-file publishing require manual integration')
     if config.get('selfTestArgument'): run(str(out/config['entryExe']),config['selfTestArgument'])
     # Include resolved dependency versions in the published binary directory and release notes.
     (out/'resolved-dependencies.json').write_text(json.dumps(selected,indent=2),encoding='utf-8')
