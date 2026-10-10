@@ -69,7 +69,9 @@ def main():
         print('No source or dependency changes; nothing published.'); return
     version=f"{config.get('releaseMajor',2)}.{int(os.environ['GITHUB_RUN_NUMBER'])//60000}.{int(os.environ['GITHUB_RUN_NUMBER'])%60000}"
     tree.write(project,encoding='utf-8',xml_declaration=True)
-    run('dotnet','restore',str(project),'--source',feed+'index.json','--source','https://api.nuget.org/v3/index.json','--source',str(project.parent/'TeamUpdater.Generated'))
+    sources=['--source',feed+'index.json','--source','https://api.nuget.org/v3/index.json']
+    if (project.parent/'TeamUpdater.Generated').exists(): sources+=['--source',str(project.parent/'TeamUpdater.Generated')]
+    run('dotnet','restore',str(project),*sources)
     run('dotnet','build',str(project),'-c','Release','-p:Version='+version)
     for test in config.get('testProjects',[]):
         test_path=(root/test).resolve()
