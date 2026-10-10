@@ -1,12 +1,12 @@
 {
-  "version": "2.0.2",
-  "url": "https://github.com/1159792767/Project-Library/releases/download/app-github-demo-v2.0.2-a1/app-github-demo-2.0.2.zip",
-  "sha256": "dffa7e7531e90a1177b6d903c4763b85c3b7fe1f231cc061f6c47f45f917cf84",
-  "notes": "Public packages: {\"Team.DesktopUpdater.1159792767\": \"0.2.0\", \"Demo.Common.1159792767\": \"1.0.2\"}",
-  "buildFingerprint": "d1fcb5118d5f2b69d7ed9360bf7931eca9a7f049b051dd8fd1e3fdee098b2a1a",
+  "version": "2.0.3",
+  "url": "https://github.com/1159792767/Project-Library/releases/download/app-github-demo-v2.0.3-a1/app-github-demo-2.0.3.zip",
+  "sha256": "c4046325efce62b172376a6c7ef483c077fcb90d29caffa41e2d97c4c2c2632d",
+  "notes": "Public packages: {\"Team.DesktopUpdater.1159792767\": \"0.2.0\", \"Demo.Common.1159792767\": \"1.0.3\"}",
+  "buildFingerprint": "a40c761b53ce12c5dd93fba9286fb604557e14dceda2577b76ba08e1c6924c49",
   "packages": {
     "Team.DesktopUpdater.1159792767": "0.2.0",
-    "Demo.Common.1159792767": "1.0.2"
+    "Demo.Common.1159792767": "1.0.3"
   },
   "sourceCommit": "4774375c3d18bcb966b38c46dbecdf9dea168cc8"
 }
