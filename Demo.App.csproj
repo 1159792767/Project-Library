@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 <PropertyGroup><OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework><UseWindowsForms>true</UseWindowsForms><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><Version>1.2.0</Version></PropertyGroup>
-<ItemGroup><Compile Remove="tests/**/*.cs;InstallUpdate.cs;_teamupdater/**/*.cs" /><PackageReference Include="Team.DesktopUpdater.1159792767" Version="0.2.0" /><PackageReference Include="Demo.Common.1159792767" Version="1.0.2" /></ItemGroup>
+<ItemGroup><Compile Remove="tests/**/*.cs;InstallUpdate.cs;_teamupdater/**/*.cs" /><PackageReference Include="Team.DesktopUpdater.1159792767" Version="0.2.0" /><PackageReference Include="Demo.Common.1159792767" Version="1.0.3" /></ItemGroup>
 </Project>
 
 
