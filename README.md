@@ -1,18 +1,16 @@
-# 外网公共库更新演示
-项目通过真正的 NuGet PackageReference 引用公共库，不复制公共库源码。
+# Windows 程序内更新演示
+## 下载体验
+请到 Releases 下载 **Demo.App-1.0.0-win-x64.zip**，不是 Source code。解压整个文件夹，双击 Demo.App.exe。无需安装 .NET。
+1. 点击计算总金额：旧版显示 10，预期 30。
+2. 点击检查更新，再点下载更新并重启。
+3. 下载经 SHA256 校验、解压并自检后，启动 1.0.1，计算结果变成 30。
+更新安装到 %LOCALAPPDATA%/PublicLibraryDemo/versions 下的独立目录。以后运行提示的新路径；旧目录保留用于回退，原快捷方式不会自动改变。
 
-## 体验步骤
-1. Actions → Test application：初始 1.0.0 会显示预期的失败，10 × 3 错误返回 10。
-2. 公共库发布 1.0.1 后，在 Actions → Check public library updates → Run workflow 扫描，或等待每小时扫描（GitHub 可能延迟）。
-3. Pull requests 出现 Update Demo.Common to 1.0.1，查看版本差异和检测工作流中通过的测试。
-4. 合并该 PR 后，主分支测试变绿。
-5. 本地安装 .NET 10 SDK 后执行 `dotnet run`，会恢复公网包并输出 PASS。
+## 源码调试
+拉取 main 后使用支持 .NET 10 的 Visual Studio 打开 Demo.App.csproj。现在是 Windows Forms 界面，不再是控制台程序。
 
-## GitHub 一次性设置
-Settings → Actions → General → Workflow permissions：允许 GitHub Actions 创建和批准 pull requests。仓库策略可能禁止此开关，需要仓库所有者配置。
-Watch → All Activity，并在个人 Settings → Notifications 开启需要的网页/邮件通知。PR 出现不代表邮件一定送达；需用户确认实际收件。
+## 发布和验证
+Actions 的 Publish desktop demo 手动构建并发布两个自包含 Windows x64 版本。两个 tag 用同一源提交，通过工作流分别选择公共库包和程序版本。旧版的计算测试应失败，新版应通过。Updater.Tests 覆盖降级、校验失败和 Zip 路径越界。
 
-## 边界
-本例采用 GitHub Actions + 简单检测脚本，不是 Renovate。只支持本例的三段稳定版本号、不自动合并。机器人 PR 的工作流可能不被触发或要求仓库所有者批准。本次独立 PR 测试显示 action_required，因此检测作业在创建 PR 前直接执行更新后测试；合并后的 push 再次执行测试。
-包通过公开 GitHub Raw 托管，仅供实验；企业部署应换为外网可访问且需认证的 NuGet 服务。
-
+## 演示边界
+需要能访问 GitHub API 和 Release 下载服务，不需要公司 VPN。匿名 API 可能限流。当前手动检查、用户确认更新，独立目录安装并重启；不是热替换 DLL。SHA256 来自 HTTPS GitHub API，不是独立发行签名。正式发布还需签名、稳定启动入口、超时重试和数据迁移策略。公共库升级 PR 与桌面发布是两条流程，本次不自动合并依赖 PR。

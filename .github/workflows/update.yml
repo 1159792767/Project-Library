@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4

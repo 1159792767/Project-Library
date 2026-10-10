@@ -19,7 +19,7 @@ run("git", "checkout", "-b", branch)
 p.write_text(original.replace('Version="'+current+'"', 'Version="'+latest+'"'))
 # Bot-created PR workflows may be suppressed or require approval.
 # Validate the updated application here, before creating the PR.
-subprocess.run(["dotnet", "run", "--project", "Demo.App.csproj"], check=True)
+subprocess.run(["dotnet", "run", "--project", "Demo.App.csproj", "--", "--self-test"], check=True)
 run("git", "config", "user.name", "dependency-demo-bot")
 run("git", "config", "user.email", "dependency-demo-bot@users.noreply.github.com")
 run("git", "add", "Demo.App.csproj")
